@@ -12,6 +12,17 @@ def prompt(message)
   puts "=> #{message}"
 end
 
+def convert_choice(entry)
+  case entry
+  when 'r' then 'rock'
+  when 'p' then 'paper'
+  when 'sc' then 'scissors'
+  when 'l' then 'lizard'
+  when 'sp' then 'spock'
+  else entry
+  end
+end
+
 def win?(first, second)
   WINNING_PLAY[first].include?(second)
 end
@@ -65,14 +76,7 @@ loop do
        "'sc' for scissors, 'l' for lizard, 'sp' for spock.)")
 
       choice = gets.chomp.downcase
-
-      case choice
-      when 'r' then choice = 'rock'
-      when 'p' then choice = 'paper'
-      when 'sc' then choice = 'scissors'
-      when 'l' then choice = 'lizard'
-      when 'sp' then choice = 'spock'
-      end
+      choice = convert_choice(choice)
 
       break if VALID_CHOICES.include?(choice)
       prompt("That's not a valid choice. Try again.")
