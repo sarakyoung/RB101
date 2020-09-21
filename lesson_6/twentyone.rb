@@ -120,6 +120,14 @@ def bust?(total)
   total > MAX_TOTAL
 end
 
+def list_cards_values(player_hand, player_total, dealer_hand, dealer_total)
+  puts "Your hand was #{list_cards(player_hand)}" \
+      " with a total value of #{player_total}."
+  puts "Dealer's hand was #{list_cards(dealer_hand)}" \
+      " with a total value of #{dealer_total}."
+  puts ' '
+end
+
 def determine_winner(player_total, dealer_total)
   if bust?(player_total)
     'dealer'
@@ -151,6 +159,13 @@ def update_score(scores, winner)
   else
     scores['dealer'] += 1
   end
+end
+
+def display_score(scores)
+  puts ' '
+  puts "Your score: #{scores['player']}"
+  puts "Dealer score: #{scores['dealer']}"
+  puts "#{ROUNDS_TO_WIN} points wins the game."
 end
 
 def grand_winner?(scores)
@@ -202,7 +217,6 @@ loop do
     system('clear')
 
     # player turn
-
     loop do
       show_hands(player_hand, dealer_hand)
       break if player_input.start_with?('s')
@@ -229,21 +243,13 @@ loop do
       prompt "Dealer busted!" if bust?(dealer_total)
     end
 
-    # compare cards and declare winner
-    puts "Your hand was #{list_cards(player_hand)}" \
-        " with a total value of #{player_total}."
-    puts "Dealer's hand was #{list_cards(dealer_hand)}" \
-        " with a total value of #{dealer_total}."
-    puts ' '
+    list_cards_values(player_hand, player_total, dealer_hand, dealer_total)
 
     winner = determine_winner(player_total, dealer_total)
     declare_winner(winner)
     update_score(scores, winner)
 
-    puts ' '
-    prompt "Your score: #{scores['player']}"
-    prompt "Dealer score: #{scores['dealer']}"
-    prompt "#{ROUNDS_TO_WIN} points wins the game."
+    display_score(scores)
 
     break if grand_winner?(scores)
 
